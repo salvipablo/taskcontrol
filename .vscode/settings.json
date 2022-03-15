@@ -1,0 +1,16 @@
+{
+    "editor.tokenColorCustomizations": {
+        "[*Dark*]": {
+            "variables": "#229977",
+            "comments": "#8b5d5d",
+            "textMateRules": [
+                {
+                    "scope": "variable.parameter",
+                    "settings": {
+                        "foreground": "#d68925"
+                    }
+                }
+            ]
+        }
+    }
+}
