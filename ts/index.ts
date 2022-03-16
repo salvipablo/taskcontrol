@@ -50,6 +50,7 @@ const completedTasks: tyTasks[] = [
 /*
 * Functions
 */
+
 let idNextToShow = (initialId: number) => initialId == 1 ? 0 : initialId - 1;
 
 function showTasksPending(initialId: number) {
@@ -61,8 +62,19 @@ function showTasksPending(initialId: number) {
         if (pendingTasks[nextToShow] != undefined) {
             html += `
                 <div class="tareasPendientes--task">
-                    <h3 class="titleTask"><span><img class="iconTask" src="images/pending.png"></span>${pendingTasks[nextToShow].taskTitle}</h3>
-                    <p class="despcrTask">${pendingTasks[nextToShow].description}</p>
+                    <div style="height: 50px; display: flex; align-items: center;">
+                        <div class="tareasPendientes--task--title">
+                            <img class="iconTask" src="images/pending.png">    
+                            <h3 class="titleTask">${pendingTasks[nextToShow].taskTitle}</h3>
+                        </div>
+                        <div class="tareasPendientes--task--iconsEdit">
+                            <img class="iconTask" src="images/edit.png">
+                            <img class="iconTask" src="images/delete.png">
+                        </div>
+                    </div>
+                    <div>
+                        <p class="despcrTask">${pendingTasks[nextToShow].description}</p>
+                    </div>
                 </div>
             `;
         }
@@ -80,8 +92,19 @@ function showTasksRunning(initialId: number) {
         if (runningTasks[nextToShow] != undefined) {
             html += `
                 <div class="tareasEjecucion--task">
-                    <h3 class="titleTask"><span><img class="iconTask" src="images/task.png"></span>${runningTasks[nextToShow].taskTitle}</h3>
-                    <p class="despcrTask">${runningTasks[nextToShow].description}</p>
+                    <div style="height: 50px; display: flex; align-items: center;">
+                        <div class="tareasEjecucion--task--title">
+                            <img class="iconTask" src="images/pending.png">    
+                            <h3 class="titleTask">${runningTasks[nextToShow].taskTitle}</h3>
+                        </div>
+                        <div class="tareasEjecucion--task--iconsEdit">
+                            <img class="iconTask" src="images/edit.png">
+                            <img class="iconTask" src="images/delete.png">
+                        </div>
+                    </div>
+                    <div>
+                        <p class="despcrTask">${runningTasks[nextToShow].description}</p>
+                    </div>
                 </div>
             `;
         }
@@ -99,9 +122,21 @@ function showTasksCompleted(initialId: number) {
         if (completedTasks[nextToShow] != undefined) {
             html += `
                 <div class="tareasFinalizadas--task">
-                    <h3 class="titleTask"><span><img class="iconTask" src="images/checked.png"></span>${completedTasks[nextToShow].taskTitle}</h3>
-                    <p class="despcrTask">${completedTasks[nextToShow].description}</p>
+                    <div style="height: 50px; display: flex; align-items: center;">
+                        <div class="tareasFinalizadas--task--title">
+                            <img class="iconTask" src="images/pending.png">    
+                            <h3 class="titleTask">${runningTasks[nextToShow].taskTitle}</h3>
+                        </div>
+                        <div class="tareasFinalizadas--task--iconsEdit">
+                            <img class="iconTask" src="images/edit.png">
+                            <img class="iconTask" src="images/delete.png">
+                        </div>
+                    </div>
+                    <div>
+                        <p class="despcrTask">${runningTasks[nextToShow].description}</p>
+                    </div>
                 </div>
+
             `;
         }
         nextToShow++;
@@ -153,6 +188,29 @@ function pagination() {
 
     cmpCntPagination.innerHTML = html;
 }
+
+function newTask(id: number, taskTitle: string, description: string, status: string) {
+    return {"id": id, "taskTitle": taskTitle, "description": description, "status": status};
+}
+
+function createTask(taskTitle: string, description: string, status: string) {
+    console.log("Create Task");
+    let nextId: number = 0;
+    if ( status == "pending") {
+        nextId = pendingTasks[pendingTasks.length - 1].id + 1;
+        pendingTasks.push(newTask(nextId, taskTitle, description, status))
+        console.log(pendingTasks);
+    }
+    if ( status == "running") {
+        nextId = runningTasks[runningTasks.length - 1].id + 1;
+        runningTasks.push(newTask(nextId, taskTitle, description, status))
+    }
+    if ( status == "completed") {
+        nextId = completedTasks[completedTasks.length - 1].id + 1;
+        completedTasks.push(newTask(nextId, taskTitle, description, status))
+    }
+}
+
 /*
 * Program
 */

@@ -2,5 +2,6 @@
 01 - Initial commit.
 02 - Show tasks.
 03 - Add pagination.
+04 - Add new features to create, edit and delete task.
 
 **** Ticket Bugs ****
