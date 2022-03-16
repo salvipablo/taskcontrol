@@ -1,5 +1,6 @@
 **** Project Tickets ****
 01 - Initial commit.
 02 - Show tasks.
+03 - Add pagination.
 
 **** Ticket Bugs ****

@@ -6,11 +6,11 @@
 type tyTasks = import('./types').intTasks;
 
 // General
-const cmpCntPagination = document.getElementById("cntPagination");
+const cmpCntPagination: any = document.getElementById("cntPagination");
 const cmpCntPendingTasks: any = document.getElementById("tareasPendientes");
 const cmpCntExecutionTasks: any = document.getElementById("tareasEjecucion");
 const cmpCntCompletedTasks: any = document.getElementById("tareasFinalizadas");
-const DISPLAYTASK = 5;
+const DISPLAYTASK: number = 5;
 const parameterValues = window.location.search;
 
 const pendingTasks: tyTasks[] = [
@@ -35,7 +35,7 @@ const runningTasks: tyTasks[] = [
     {id: 3, taskTitle: "Tarea Pendiente 3.", description: "Descripcion p 3.", status: "running"},
     {id: 4, taskTitle: "Tarea Pendiente 4.", description: "Descripcion p 4.", status: "running"},
     {id: 5, taskTitle: "Tarea Pendiente 5.", description: "Descripcion p 5.", status: "running"},
-    {id: 5, taskTitle: "Tarea Pendiente 6.", description: "Descripcion p 6.", status: "running"}
+    {id: 6, taskTitle: "Tarea Pendiente 6.", description: "Descripcion p 6.", status: "running"}
 ];
 
 const completedTasks: tyTasks[] = [
@@ -122,13 +122,41 @@ function showTasks() {
     showTasksCompleted(initialId);
 }
 
-/*
-* Events
-*/
+function calculateNumberPages( numberPendingTasks: number, numberRunningTasks: number, numberCompletedTasks: number, numberTasksToDisplay: number ) {
+    let numberPendingPagesInt: number = Math.floor(numberPendingTasks / numberTasksToDisplay);
+    let numberRunningPagesInt: number = Math.floor(numberRunningTasks / numberTasksToDisplay);
+    let numberFinishedPagesInt: number = Math.floor(numberCompletedTasks / numberTasksToDisplay);
 
+    console.log(numberPendingPagesInt);
+    console.log(numberRunningPagesInt);
+    console.log(numberFinishedPagesInt);
+    
+    if ( ( numberPendingTasks/numberTasksToDisplay ) > numberPendingPagesInt ) numberPendingPagesInt +=1;
+    if ( ( numberRunningTasks/numberTasksToDisplay ) > numberRunningPagesInt ) numberRunningPagesInt +=1;
+    if ( ( numberCompletedTasks/numberTasksToDisplay ) > numberFinishedPagesInt ) numberFinishedPagesInt +=1;
 
+    if ( numberPendingPagesInt >= numberRunningPagesInt && numberPendingPagesInt >= numberFinishedPagesInt ) return numberPendingPagesInt;
+    if ( numberRunningPagesInt >= numberPendingPagesInt && numberRunningPagesInt >= numberFinishedPagesInt ) return numberRunningPagesInt;
+    return numberFinishedPagesInt;
+}
+
+function pagination() {
+    let pages = calculateNumberPages(pendingTasks.length, runningTasks.length, completedTasks.length, DISPLAYTASK);
+
+    let html = "";
+
+    for ( let i = 0; i < pages; i++ ) {
+        html += `
+            <a href="index.html?page=${i+1}">${i+1}</a>
+        `;
+    }
+
+    cmpCntPagination.innerHTML = html;
+}
 /*
 * Program
 */
 
 showTasks();
+
+pagination();
